@@ -46,21 +46,25 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 400,
-            child: PageView.builder(
-              itemBuilder: (context, index) {
-                return Image.network(
-                  widget.media[index].url ?? "",
-                  fit: BoxFit.cover,
-                  loadingBuilder: _loadingBuilder,
-                );
-              },
-              itemCount: widget.media.length,
-            ),
+            child: _buildImageBuilder(),
           ),
         ),
         _buildTopOverlay(context),
         _buildBottomOverlay(context)
       ],
+    );
+  }
+
+  PageView _buildImageBuilder() {
+    return PageView.builder(
+      itemBuilder: (context, index) {
+        return Image.network(
+          widget.media[index].url ?? "",
+          fit: BoxFit.cover,
+          loadingBuilder: _loadingBuilder,
+        );
+      },
+      itemCount: widget.media.length,
     );
   }
 
@@ -72,12 +76,7 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
         width: MediaQuery.of(context).size.width,
         child: Row(
           children: [
-            AvatarOverlay(
-              borderColor: Color(0xffFF0040),
-              avatarUrl: widget.avatarUrl,
-              overlaySize: widget.overlaySize,
-              avatarRadius: widget.avatarRadius,
-            ),
+            _buildTopOverlayAvatar(),
             const DynamicHorizontalSpace(spacing: ContextSpacing.small),
             _buildNameAndTag(),
             const Spacer(),
@@ -86,6 +85,15 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
           ],
         ),
       ),
+    );
+  }
+
+  AvatarOverlay _buildTopOverlayAvatar() {
+    return AvatarOverlay(
+      borderColor: Color(0xffFF0040),
+      avatarUrl: widget.avatarUrl,
+      overlaySize: widget.overlaySize,
+      avatarRadius: widget.avatarRadius,
     );
   }
 

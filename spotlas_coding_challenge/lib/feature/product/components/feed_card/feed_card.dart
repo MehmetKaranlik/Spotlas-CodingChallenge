@@ -24,27 +24,34 @@ class _FeedCardState extends State<FeedCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FeedCardImageHolder(
-          avatarUrl: widget.post.author?.photoUrl ?? "",
-          overlaySize: OverlaySize.small,
-          media: widget.post.media ?? [],
-          avatarRadius: 49,
-          placeAvatarUrl: widget.post.spot?.logo?.url ?? "",
-          userFullname: widget.post.author?.fullName ?? "",
-          userTag: widget.post.author?.username ?? "",
-          spotName: widget.post.spot?.name ?? "",
-          spotTag: widget.post.spot?.location?.display ?? "",
-        ),
+        _buildImageHolder(),
         const DynamicVerticalSpace(spacing: ContextSpacing.medium),
         const Toolbar(),
         const DynamicVerticalSpace(spacing: ContextSpacing.medium),
-        const ToggleText(),
+        ToggleText(
+          authorName: widget.post.author?.fullName ?? "",
+          caption: widget.post.caption?.text ?? "",
+        ),
         const DynamicVerticalSpace(spacing: ContextSpacing.xsmall),
         _buildTagButtonBuilder(),
         const DynamicVerticalSpace(spacing: ContextSpacing.small),
         _buildDateRow(),
         const DynamicVerticalSpace(spacing: ContextSpacing.large),
       ],
+    );
+  }
+
+  FeedCardImageHolder _buildImageHolder() {
+    return FeedCardImageHolder(
+      avatarUrl: widget.post.author?.photoUrl ?? "",
+      overlaySize: OverlaySize.small,
+      media: widget.post.media ?? [],
+      avatarRadius: 49,
+      placeAvatarUrl: widget.post.spot?.logo?.url ?? "",
+      userFullname: widget.post.author?.fullName ?? "",
+      userTag: widget.post.author?.username ?? "",
+      spotName: widget.post.spot?.name ?? "",
+      spotTag: widget.post.spot?.location?.display ?? "",
     );
   }
 

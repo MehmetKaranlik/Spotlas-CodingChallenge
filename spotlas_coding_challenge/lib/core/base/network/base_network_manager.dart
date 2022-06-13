@@ -24,7 +24,6 @@ class BaseNetworkService {
     return NetworkManager(
       options: BaseOptions(
         baseUrl: NetworkPath.baseUrl.value,
-        // headers: {HttpHeaders.authorizationHeader: 'Bearer $accessToken', 'lang': defineLangHeader()},
       ),
       isEnableLogger: true,
       onRefreshToken: (error, newService) {
