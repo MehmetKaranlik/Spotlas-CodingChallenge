@@ -37,7 +37,7 @@ class _ToggleButtonState extends State<ToggleButton> {
         },
         icon: Image.asset(
           isSelected ? widget.selectedImage : widget.unselectedImage,
-          color: isSelected ? Colors.yellow : null,
+          color: isSelected ? Colors.red : null,
           height: 24,
         ));
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotlas_coding_challenge/core/extensions/context_extensions.dart';
+import 'package:spotlas_coding_challenge/core/extensions/string_extensions.dart';
 import 'package:spotlas_coding_challenge/core/widgets/dynamic_horizontal_space.dart';
 import 'package:spotlas_coding_challenge/core/widgets/dynamic_vertical_space.dart';
 import 'package:spotlas_coding_challenge/feature/product/components/avatar_overlay.dart';
@@ -8,8 +9,11 @@ import 'package:spotlas_coding_challenge/feature/product/components/feed_card/fe
 import 'package:spotlas_coding_challenge/feature/product/components/feed_card/feed_toolbar.dart';
 import 'package:spotlas_coding_challenge/feature/product/components/feed_card/toggle_text.dart';
 
+import '../../../views/feed/model/feed_model.dart';
+
 class FeedCard extends StatefulWidget {
-  const FeedCard({Key? key}) : super(key: key);
+  final Post post;
+  const FeedCard({Key? key, required this.post}) : super(key: key);
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -20,12 +24,16 @@ class _FeedCardState extends State<FeedCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const FeedCardImageHolder(
-          avatarUrl: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
+        FeedCardImageHolder(
+          avatarUrl: widget.post.author?.photoUrl ?? "",
           overlaySize: OverlaySize.small,
-          imageUrl: "https://via.placeholder.com/375x468",
+          media: widget.post.media ?? [],
           avatarRadius: 49,
-          placeAvatarUrl: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
+          placeAvatarUrl: widget.post.spot?.logo?.url ?? "",
+          userFullname: widget.post.author?.fullName ?? "",
+          userTag: widget.post.author?.username ?? "",
+          spotName: widget.post.spot?.name ?? "",
+          spotTag: widget.post.spot?.location?.display ?? "",
         ),
         const DynamicVerticalSpace(spacing: ContextSpacing.medium),
         const Toolbar(),
@@ -42,10 +50,10 @@ class _FeedCardState extends State<FeedCard> {
 
   Row _buildDateRow() {
     return Row(
-      children: const [
+      children: [
         DynamicHorizontalSpace(spacing: ContextSpacing.small),
         Text(
-          "4 days ago",
+          widget.post.createdAt.timeAgo(),
           style: TextStyle(
             color: Colors.grey,
           ),
@@ -56,14 +64,14 @@ class _FeedCardState extends State<FeedCard> {
 
   SizedBox _buildTagButtonBuilder() {
     return SizedBox(
-      height: 38,
+      height: (widget.post.tags?.isNotEmpty ?? false) ? 38 : 0,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return _buildSingleTagButton(index, context);
         },
         separatorBuilder: (ctx, index) => const DynamicHorizontalSpace(spacing: ContextSpacing.xxsmall),
-        itemCount: 100,
+        itemCount: widget.post.tags?.length ?? 0,
       ),
     );
   }
@@ -71,7 +79,9 @@ class _FeedCardState extends State<FeedCard> {
   Padding _buildSingleTagButton(int index, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: index == 0 ? context.padding(ContextSpacing.small) : 0, bottom: 3, top: 3),
-      child: const TagButton(buttonTitle: "tag button"),
+      child: TagButton(
+        buttonTitle: widget.post.tags?[index].name ?? "",
+      ),
     );
   }
 }

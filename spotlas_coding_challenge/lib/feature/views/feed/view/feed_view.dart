@@ -17,27 +17,31 @@ class _FeedViewState extends State<FeedView> {
   void initState() {
     _buildPaginationListener;
     _buildStateListener;
+    viewModel.fetchPosts();
     super.initState();
   }
 
   void get _buildPaginationListener {
     viewModel.scrollController.addListener(() {
       if (viewModel.buildPaginationCondition) {
-        viewModel.populateTable();
+        viewModel.page += 1;
+        viewModel.fetchPosts().whenComplete(() => viewModel.changeLoading());
       }
     });
   }
 
   void get _buildStateListener {
     viewModel.addListener(() {
-      viewModel.paginationBuffer <= viewModel.list.length
-          ? WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              setState(() {
-                viewModel.paginationBuffer = viewModel.list.length + 10;
-              });
-            })
-          : null;
+      print("PostLength :" + viewModel.posts.length.toString());
+      print("BufferLength :" + viewModel.paginationBuffer.toString());
+
+      ((viewModel.paginationBuffer <= viewModel.posts.length) && !viewModel.isLoading) ? changeState() : null;
     });
+  }
+
+  void changeState() {
+    viewModel.balanceState();
+    setState(() {});
   }
 
   @override
@@ -59,18 +63,15 @@ class _FeedViewState extends State<FeedView> {
   }
 
   ListView _buildBody() {
-    return ListView.separated(
+    return ListView.builder(
       controller: viewModel.scrollController,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
-        return const FeedCard();
-      },
-      separatorBuilder: (context, index) {
-        return const SizedBox(
-          height: 20,
+        return FeedCard(
+          post: viewModel.posts[index],
         );
       },
-      itemCount: viewModel.list.length,
+      itemCount: viewModel.posts.length,
     );
   }
 }

@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:spotlas_coding_challenge/core/base/controller/base_controllder.dart';
+import 'package:spotlas_coding_challenge/feature/views/feed/service/IFeed_service.dart';
+import 'package:spotlas_coding_challenge/feature/views/feed/service/feed_service.dart';
 
-class FeedViewModel extends ChangeNotifier {
+import '../model/feed_model.dart';
+
+class FeedViewModel extends BaseViewModel {
   final ScrollController scrollController = ScrollController();
-  var paginationBuffer = 30;
-  var list = <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  IFeedServie get service => FeedService(networkService);
+  int page = 1;
+  bool isLoading = false;
+  var paginationBuffer = 0;
 
-  void populateTable() {
-    list.addAll(List.generate(10, (i) => i));
-    notifyListeners();
-  }
+  List<Post> posts = [];
 
   bool get buildPaginationCondition {
     final maxExtend = scrollController.position.maxScrollExtent;
     final currentExtend = scrollController.position.pixels;
     const pixelBuffer = 100;
     return maxExtend - currentExtend <= pixelBuffer;
+  }
+
+  Future<void> fetchPosts() async {
+    isLoading = true;
+    final result = await service.fetchPosts(page) ?? [];
+    posts.addAll(result);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  void changeLoading() {
+    isLoading = !isLoading;
+  }
+
+  void balanceState() {
+    paginationBuffer = posts.length + 15;
+    changeLoading();
   }
 }

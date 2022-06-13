@@ -4,20 +4,29 @@ import 'package:spotlas_coding_challenge/core/extensions/context_extensions.dart
 import 'package:spotlas_coding_challenge/core/widgets/dynamic_horizontal_space.dart';
 import 'package:spotlas_coding_challenge/feature/product/components/avatar_overlay.dart';
 import 'package:spotlas_coding_challenge/feature/product/components/buttons/more_action_button.dart';
+import 'package:spotlas_coding_challenge/feature/views/feed/model/feed_model.dart';
 
 class FeedCardImageHolder extends StatefulWidget {
-  final String imageUrl;
+  final List<Media> media;
   final String avatarUrl;
   final OverlaySize overlaySize;
   final double avatarRadius;
   final String placeAvatarUrl;
+  final String userFullname;
+  final String userTag;
+  final String spotName;
+  final String spotTag;
   const FeedCardImageHolder({
     Key? key,
-    required this.imageUrl,
+    required this.media,
     required this.avatarUrl,
     required this.overlaySize,
     required this.avatarRadius,
     required this.placeAvatarUrl,
+    required this.userFullname,
+    required this.userTag,
+    required this.spotName,
+    required this.spotTag,
   }) : super(key: key);
 
   @override
@@ -30,11 +39,24 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.network(
-          widget.imageUrl,
-          fit: BoxFit.fitWidth,
-          width: MediaQuery.of(context).size.width,
-          loadingBuilder: _loadingBuilder,
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 250,
+          ),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 400,
+            child: PageView.builder(
+              itemBuilder: (context, index) {
+                return Image.network(
+                  widget.media[index].url ?? "",
+                  fit: BoxFit.cover,
+                  loadingBuilder: _loadingBuilder,
+                );
+              },
+              itemCount: widget.media.length,
+            ),
+          ),
         ),
         _buildTopOverlay(context),
         _buildBottomOverlay(context)
@@ -51,6 +73,7 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
         child: Row(
           children: [
             AvatarOverlay(
+              borderColor: Color(0xffFF0040),
               avatarUrl: widget.avatarUrl,
               overlaySize: widget.overlaySize,
               avatarRadius: widget.avatarRadius,
@@ -69,17 +92,17 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
   Column _buildNameAndTag() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          "nataliestevens",
+          widget.userFullname,
           style: TextStyle(
             color: Colors.white,
           ),
         ),
         Text(
-          "Natilie Stevens",
+          widget.userTag,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.8),
           ),
         ),
       ],
@@ -95,6 +118,7 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
         child: Row(
           children: [
             AvatarOverlay(
+              borderColor: Colors.white,
               avatarUrl: widget.placeAvatarUrl,
               overlaySize: widget.overlaySize,
               avatarRadius: widget.avatarRadius,
@@ -123,17 +147,17 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
   Column _buildBottomOverlayText() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          "Pachamama",
-          style: TextStyle(
+          widget.spotName,
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
         Text(
-          "Pruvian · Marylebone",
+          widget.spotTag,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.8),
           ),
         ),
       ],

@@ -45,7 +45,7 @@ class _ToggleTextState extends State<ToggleText> {
   void _expandLine() {
     if (maximumNumberOfLines == 3) {
       setState(() {
-        maximumNumberOfLines = 10;
+        maximumNumberOfLines = 20;
       });
     } else {
       setState(() {

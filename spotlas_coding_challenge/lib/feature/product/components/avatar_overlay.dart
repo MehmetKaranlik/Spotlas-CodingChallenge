@@ -4,20 +4,35 @@ class AvatarOverlay extends StatelessWidget {
   final String avatarUrl;
   final OverlaySize overlaySize;
   final double avatarRadius;
-  const AvatarOverlay({Key? key, required this.avatarUrl, required this.overlaySize, required this.avatarRadius}) : super(key: key);
+  final Color borderColor;
+  const AvatarOverlay({
+    Key? key,
+    required this.avatarUrl,
+    required this.overlaySize,
+    required this.avatarRadius,
+    required this.borderColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: avatarRadius,
       height: avatarRadius,
-      // margin: EdgeInsets.all(_buildMargin(overlaySize)),
       decoration: BoxDecoration(
-          border: Border.all(
-            width: _buildMargin(overlaySize),
+        border: Border.all(
+          width: _buildMargin(overlaySize),
+          color: borderColor,
+        ),
+        shape: BoxShape.circle,
+        boxShadow: <BoxShadow>[
+          BoxShadow(color: Colors.black.withOpacity(0.8), blurRadius: 20),
+        ],
+      ),
+      child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(avatarRadius),
           ),
-          shape: BoxShape.circle),
-      child: Image.network(avatarUrl),
+          child: Image.network(avatarUrl)),
     );
   }
 

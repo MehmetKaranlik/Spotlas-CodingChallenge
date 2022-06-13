@@ -18,6 +18,7 @@ dependencies:
 
   #utils
   readmore: ^2.1.0
+  vexana: ^2.8.0
 
 dev_dependencies:
   flutter_test:
