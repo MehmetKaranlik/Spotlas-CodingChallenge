@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotlas_coding_challenge/feature/product/components/feed_card/feed_card.dart';
 
-import '../view_model/feed_viewmodel.dart';
+import '../view_model/feed_view_model.dart';
 
 class FeedView extends StatefulWidget {
   const FeedView({Key? key}) : super(key: key);
@@ -63,10 +63,10 @@ class _FeedViewState extends State<FeedView> {
       controller: viewModel.scrollController,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
-        return FeedCard();
+        return const FeedCard();
       },
       separatorBuilder: (context, index) {
-        return SizedBox(
+        return const SizedBox(
           height: 20,
         );
       },

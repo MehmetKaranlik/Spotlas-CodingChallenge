@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotlas_coding_challenge/core/constants/assets/image_constants.dart';
 import 'package:spotlas_coding_challenge/core/extensions/context_extensions.dart';
 import 'package:spotlas_coding_challenge/core/widgets/dynamic_horizontal_space.dart';
 import 'package:spotlas_coding_challenge/feature/product/components/avatar_overlay.dart';
@@ -24,6 +25,7 @@ class FeedCardImageHolder extends StatefulWidget {
 }
 
 class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
+  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -100,8 +102,18 @@ class _FeedCardImageHolderState extends State<FeedCardImageHolder> {
             const DynamicHorizontalSpace(spacing: ContextSpacing.small),
             _buildBottomOverlayText(),
             const Spacer(),
-            const MoreActionButton(),
-            const DynamicHorizontalSpace(spacing: ContextSpacing.large),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isFavorite = !isFavorite;
+                });
+              },
+              icon: Image.asset(
+                isFavorite ? ImageConstants.instance.icStarFilled : ImageConstants.instance.icStarEmpty,
+                color: isFavorite ? Colors.yellow : Colors.white,
+              ),
+            ),
+            const DynamicHorizontalSpace(spacing: ContextSpacing.xlarge),
           ],
         ),
       ),
