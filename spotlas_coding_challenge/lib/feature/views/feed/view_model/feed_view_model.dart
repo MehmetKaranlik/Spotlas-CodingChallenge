@@ -6,6 +6,7 @@ import 'package:spotlas_coding_challenge/feature/views/feed/service/feed_service
 import '../model/feed_model.dart';
 
 class FeedViewModel extends BaseViewModel {
+  // properties
   final ScrollController scrollController = ScrollController();
   IFeedServie get service => FeedService(networkService);
   int page = 1;
@@ -22,10 +23,10 @@ class FeedViewModel extends BaseViewModel {
   }
 
   Future<void> fetchPosts() async {
-    isLoading = true;
+    changeLoading();
     final result = await service.fetchPosts(page) ?? [];
     posts.addAll(result);
-    isLoading = false;
+    changeLoading();
     notifyListeners();
   }
 

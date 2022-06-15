@@ -32,9 +32,6 @@ class _FeedViewState extends State<FeedView> {
 
   void get _buildStateListener {
     viewModel.addListener(() {
-      print("PostLength :" + viewModel.posts.length.toString());
-      print("BufferLength :" + viewModel.paginationBuffer.toString());
-
       ((viewModel.paginationBuffer <= viewModel.posts.length) && !viewModel.isLoading) ? changeState() : null;
     });
   }
