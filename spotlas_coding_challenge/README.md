@@ -1,16 +1,7 @@
 # spotlas_coding_challenge
 
-A new Flutter project.
+Spotlas coding-challenge UI&Networking <br>
+All the assets belogns the Spotlas.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Simulator Screen Shot - iPhone 13 - 2022-06-14 at 00 25 08](https://user-images.githubusercontent.com/89414084/173448172-0ea89bc5-aeeb-4126-8da6-ec9c61ef42cf.png)
+![Simulator Screen Shot - iPhone 13 - 2022-06-14 at 00 25 23](https://user-images.githubusercontent.com/89414084/173448273-778de700-fb23-4569-a744-22f337f20166.png)
